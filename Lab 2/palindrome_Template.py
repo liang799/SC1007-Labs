@@ -132,8 +132,27 @@ def palindrome(word):
     print("Is a palindrome")
 
 
+def palindrome_optimized_constrained(word):
+    text = "".join(char.lower() for char in word if char.isalnum())
+
+    stack = Stack()
+    queue = Queue()
+
+    # One pass to fill both
+    for char in text:
+        stack.push(char)
+        queue.enqueue(char)
+
+    # One pass to compare (O(n/2) is enough, but O(n) is standard here)
+    while not stack.is_empty():
+        if stack.pop() != queue.dequeue():
+            print("Is not a palindrome")
+            return
+
+    print("Is a palindrome")
+
 if __name__ == "__main__":
     print("Sample String : A man a plan a canal Panama")
-    palindrome("A man a plan a canal Panama")
+    palindrome_optimized_constrained("A man a plan a canal Panama")
     print("Sample String : Superman in the sky")
-    palindrome("Superman in the sky")
+    palindrome_optimized_constrained("Superman in the sky")
