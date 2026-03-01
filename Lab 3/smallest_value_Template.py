@@ -20,24 +20,38 @@ def printTree(node, level=0, prefix="Root: "):
             if node.right:
                 printTree(node.right, level + 4, "R--- ")
 
-def smallest_value(node):
+def smallest_value_original(node):
     if node.left is None and node.right is None:
         return node.item
 
     if node.left is None:
         return node.item
 
-    smallest = smallest_value(node.left)
+    smallest = smallest_value_original(node.left)
     if node.item < smallest:
         smallest = node.item
 
     if node.right is None:
         return smallest
-    current = smallest_value(node.right)
+    current = smallest_value_original(node.right)
     if current < smallest:
         smallest = current
 
     return smallest
+
+
+def smallest_value(node):
+    # Base case: If the node is None, return infinity
+    # so it does not interfere with the min() calculation.
+    if node is None:
+        return float('inf')
+
+    # Recursively find the smallest values in both subtrees
+    left_smallest = smallest_value(node.left)
+    right_smallest = smallest_value(node.right)
+
+    # Return the minimum among the current node, left subtree, and right subtree
+    return min(node.item, left_smallest, right_smallest)
 
 def run_strict_tests(smallest_val_func):
     print("Running strict test cases...\n")
